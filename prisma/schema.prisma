@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@34.101.48.117:5432/frency_db?connection_limit=10&pool_timeout=60"
+  url      = "postgresql://postgres:postgres@34.101.48.117:5432/frency_db?socket=/cloudsql/frencyyy::frencyyy"
 }
 
 model User {
