@@ -9,6 +9,14 @@ import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 import { logger } from "../application/logging.js";
 
+import { Storage } from "@google-cloud/storage";
+
+const storage = new Storage({
+  projectId: "frency-api-408414",
+  keyFilename: "./gsa.json",
+});
+const bucket = storage.bucket("frency");
+
 const uploadImages = async (franchiseId, request) => {
   const franchise = await prismaClient.franchise.findUnique({
     where: { id: parseInt(franchiseId) },
@@ -22,16 +30,41 @@ const uploadImages = async (franchiseId, request) => {
   if (gallery && gallery.length > 0) {
     createdGallery = await Promise.all(
       gallery.map(async (image) => {
-        const imagePath = image.path; // Path dari setiap file yang diunggah
+        const fileName = Date.now() + "-" + image.originalname;
+        const destination = "uploads/" + fileName;
+        const gcsFile = bucket.file(destination);
 
-        const createdAssociation = await prismaClient.gallery.create({
-          data: {
-            image: imagePath,
-            franchise_id: parseInt(franchiseId),
+        const stream = gcsFile.createWriteStream({
+          metadata: {
+            contentType: image.mimetype,
           },
+          public: true, // Atur ke true jika ingin file dapat diakses publik
+          validation: "md5",
         });
 
-        return createdAssociation;
+        const uploadPromise = new Promise((resolve, reject) => {
+          stream.on("error", (err) => {
+            console.error(err);
+            reject(err);
+          });
+
+          stream.on("finish", async () => {
+            await prismaClient.gallery.create({
+              data: {
+                image: `https://storage.googleapis.com/frency/uploads/${fileName}`,
+                franchise_id: parseInt(franchiseId),
+              },
+            });
+
+            resolve();
+          });
+
+          stream.end(image.buffer);
+        });
+
+        await uploadPromise.catch((err) => {
+          throw err;
+        });
       })
     );
   }
@@ -48,6 +81,46 @@ const uploadImages = async (franchiseId, request) => {
 
   return updatedFranchise;
 };
+
+// const uploadImages = async (franchiseId, request) => {
+//   const franchise = await prismaClient.franchise.findUnique({
+//     where: { id: parseInt(franchiseId) },
+//   });
+
+//   if (!franchise) throw new ResponseError(404, "Franchise not found");
+
+//   const gallery = request.files;
+//   let createdGallery = [];
+
+//   if (gallery && gallery.length > 0) {
+//     createdGallery = await Promise.all(
+//       gallery.map(async (image) => {
+//         const imagePath = image.path; // Path dari setiap file yang diunggah
+
+//         const createdAssociation = await prismaClient.gallery.create({
+//           data: {
+//             image: imagePath,
+//             franchise_id: parseInt(franchiseId),
+//           },
+//         });
+
+//         return createdAssociation;
+//       })
+//     );
+//   }
+
+//   // Fetch the created franchise with its updated associations
+//   const updatedFranchise = await prismaClient.franchise.findUnique({
+//     where: { id: parseInt(franchiseId) },
+//     include: {
+//       franchisor: true,
+//       franchiseType: true,
+//       gallery: true,
+//     },
+//   });
+
+//   return updatedFranchise;
+// };
 
 const create = async (user, request) => {
   const { franchiseType, gallery, ...franchiseData } = validate(

@@ -1,14 +1,15 @@
 import multer from "multer";
 
 // Konfigurasi penyimpanan file
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Tentukan direktori penyimpanan file
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Ubah nama file
-  },
-});
+const storage = multer.memoryStorage();
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/"); // Tentukan direktori penyimpanan file
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + "-" + file.originalname); // Ubah nama file
+//   },
+// });
 
 // Filter untuk menerima hanya tipe file tertentu (jika diperlukan)
 const fileFilter = (req, file, cb) => {
