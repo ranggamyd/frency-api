@@ -4,15 +4,10 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "test": "jest -i"
+    "start": "node ."
   },
   "prisma": {
     "seed": "node prisma/seed.js"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
   },
   "author": "",
   "license": "ISC",
