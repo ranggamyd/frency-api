@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  name       String      @db.VarChar()
+  email      String      @unique @db.VarChar()
+  password   String      @db.VarChar()
+  role       String      @db.VarChar()
+  token      String?     @db.VarChar()
+  franchises Franchise[]
+  favorites  Favorite[]
+
+  @@map("users")
+}
+
+model Franchise {
+  id              Int             @id @default(autoincrement())
+  franchise_name  String          @db.VarChar()
+  address         String          @db.VarChar()
+  description     String          @db.Text()
+  category        String          @db.VarChar()
+  whatsapp_number String          @db.VarChar()
+  franchisor_id   Int
+  franchisor      User            @relation(fields: [franchisor_id], references: [id])
+  franchiseType   FranchiseType[]
+  gallery         Gallery[]
+  Favorites       Favorite[]
+
+  @@map("franchises")
+}
+
+model Type {
+  id             Int             @id @default(autoincrement())
+  franchise_type String          @db.VarChar()
+  franchiseType  FranchiseType[]
+
+  @@map("types")
+}
+
+model FranchiseType {
+  id           Int       @id @default(autoincrement())
+  franchise_id Int
+  type_id      Int
+  franchise    Franchise @relation(fields: [franchise_id], references: [id])
+  type         Type      @relation(fields: [type_id], references: [id])
+
+  @@map("franchise_types")
+}
+
+model Gallery {
+  id           Int       @id @default(autoincrement())
+  franchise_id Int
+  image        String    @db.Text()
+  franchise    Franchise @relation(fields: [franchise_id], references: [id])
+
+  @@map("galleries")
+}
+
+model Favorite {
+  id            Int       @id @default(autoincrement())
+  franchise_id  Int
+  franchisee_id Int
+  franchise     Franchise @relation(fields: [franchise_id], references: [id])
+  franchisee    User      @relation(fields: [franchisee_id], references: [id])
+
+  @@map("favorites")
+}

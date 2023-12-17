@@ -1,0 +1,114 @@
+### REGISTER USER
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name" : "string2",
+  "email" : "string2",
+  "password" : "string2",
+  "role" : "string2"
+}
+
+### LOGIN USER
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email" : "john@example.com",
+  "password" : "123"
+}
+
+### GET ALL USERS
+GET http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+### GET CURRENT USER
+GET http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+### EDIT CURRENT USER
+PATCH http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+{
+  "name" : "string1",
+  "email" : "string1",
+  "password" : "string1",
+  "role" : "string1"
+}
+
+### LOGOUT
+DELETE http://localhost:3000/api/users/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+
+
+### POST FRANCHISE
+POST http://localhost:3000/api/franchises
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+{
+  "franchise_name" : "string",
+  "address" : "string",
+  "description" : "string",
+  "category" : "string",
+  "whatsapp_number" : "string",
+  "franchiseType": [1, 2, 3]
+}
+
+### GET ALL FRANCHISES
+GET http://localhost:3000/api/franchises
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+### GET MY FRANCHISES
+GET http://localhost:3000/api/my_franchises
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+### GET A FRANCHISE
+GET http://localhost:3000/api/franchises/2
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+### UPDATE FRANCHISE
+PUT http://localhost:3000/api/franchises/3
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+{
+  "franchise_name" : "string 1",
+  "address" : "string 1",
+  "description" : "string 1",
+  "category" : "string 1",
+  "whatsapp_number" : "string 1",
+  "franchiseType": [1, 3]
+}
+
+### DELETE FRANCHISE
+DELETE http://localhost:3000/api/franchises/3
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+
+### SEARCH FRANCHISES
+GET http://localhost:3000/api/franchises
+Content-Type: application/json
+Accept: application/json
+Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
