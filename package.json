@@ -4,14 +4,9 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "generate": "npx prisma generate",
-    "deploy": "npx prisma migrate deploy",
-    "dev": "npm run generate && nodemon --watch \"src/**\" --ext \"js,json\" --exec \"node src/index.js\"",
-    "build": "npm run generate",
-    "start": "npm run build && node build/index.js"
+    "start": "npx prisma generate && node ."
   },
   "prisma": {
-    "schema": "prisma/schema.prisma",
     "seed": "node prisma/seed.js"
   },
   "author": "",
