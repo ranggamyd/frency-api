@@ -1,5 +1,5 @@
 ### REGISTER USER
-POST http://localhost:3000/api/users
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/users
 Content-Type: application/json
 Accept: application/json
 
@@ -11,8 +11,7 @@ Accept: application/json
 }
 
 ### LOGIN USER
-# POST http://localhost:8080/api/users/login
-POST https://frencyyy-ypejmvheja-et.a.run.app/api/users/login
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/users/login
 Content-Type: application/json
 Accept: application/json
 
@@ -22,22 +21,22 @@ Accept: application/json
 }
 
 ### GET ALL USERS
-GET http://localhost:3000/api/users
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/users
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 ### GET CURRENT USER
-GET http://localhost:3000/api/users/current
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 ### EDIT CURRENT USER
-PATCH http://localhost:3000/api/users/current
+PATCH https://frency-api-ofjpwfxlpa-et.a.run.app/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 {
   "name" : "string1",
@@ -47,18 +46,18 @@ Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
 }
 
 ### LOGOUT
-DELETE http://localhost:3000/api/users/logout
+DELETE https://frency-api-ofjpwfxlpa-et.a.run.app/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 
 
 ### POST FRANCHISE
-POST http://localhost:3000/api/franchises
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 {
   "franchise_name" : "string",
@@ -69,29 +68,38 @@ Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
   "franchiseType": [1, 2, 3]
 }
 
+### UPLOAD FRANCHISE GALLERY
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/3/upload
+Content-Type: multipart/form-data
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
+
+{
+  "gallery" : ["img1.jpg", "img2.jpg", "img2.jpg"]
+}
+
 ### GET ALL FRANCHISES
-GET http://localhost:3000/api/franchises
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 ### GET MY FRANCHISES
-GET http://localhost:3000/api/my_franchises
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/my_franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 ### GET A FRANCHISE
-GET http://localhost:3000/api/franchises/2
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/2
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 ### UPDATE FRANCHISE
-PUT http://localhost:3000/api/franchises/3
+PUT https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 {
   "franchise_name" : "string 1",
@@ -103,13 +111,13 @@ Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
 }
 
 ### DELETE FRANCHISE
-DELETE http://localhost:3000/api/franchises/3
+DELETE https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
 
 ### SEARCH FRANCHISES
-GET http://localhost:3000/api/franchises
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: d9653e4f-7a42-42f3-ba60-ae82474681e2
+Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd
