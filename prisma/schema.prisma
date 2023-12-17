@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@/cloudsql/frencyyy:asia-southeast2:frencyyy/frency_db"
+  url      = "postgresql://postgres:postgres@/frency_db?host=/var/run/postgresql/"
 }
 
 model User {
