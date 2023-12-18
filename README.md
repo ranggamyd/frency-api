@@ -8,10 +8,10 @@ POST https://frency-api-ofjpwfxlpa-et.a.run.app/users
 - *Content-Type: application/json*
 ```json
 {
-  "name" : "string",
-  "email" : "string",
-  "password" : "string",
-  "role" : "string"
+  "name" : "Franchisee 2",
+  "email" : "franchisee2@frency.io",
+  "password" : "franchisee2",
+  "role" : "Franchisee" // [Franchisee, Franchisor]
 }
 ```
 
@@ -20,8 +20,8 @@ POST https://frency-api-ofjpwfxlpa-et.a.run.app/users/login
 - *Content-Type: application/json*
 ```json
 {
-  "email" : "john@example.com",
-  "password" : "123"
+  "email" : "franchisor@frency.io",
+  "password" : "franchisor"
 }
 ```
 
@@ -44,10 +44,10 @@ PUT https://frency-api-ofjpwfxlpa-et.a.run.app/users/current
 - *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
 ```json
 {
-  "name" : "string 1",
-  "email" : "string 1",
-  "password" : "string 1",
-  "role" : "string 1"
+  "name" : "string",
+  "email" : "string",
+  "password" : "string",
+  "role" : "string"
 }
 ```
 
@@ -57,6 +57,14 @@ DELETE https://frency-api-ofjpwfxlpa-et.a.run.app/users/logout
 <hr>
 
 <h3>FRANCHISE API</h3>
+
+#### GET ALL FRANCHISES
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
+- *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
+
+#### GET A FRANCHISE
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/(:franchise_id)
+- *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
 
 #### POST FRANCHISE
 POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
@@ -69,7 +77,7 @@ POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
   "description" : "string",
   "category" : "string",
   "whatsapp_number" : "string",
-  "franchiseType": [1, 2, 3] //franchise_type_id
+  "franchiseType": [1, 2, 3] // franchise_type_id
 }
 ```
 
@@ -83,16 +91,8 @@ POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/(:franchise_id)/uploa
 }
 ```
 
-#### GET ALL FRANCHISES
-GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
-- *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
-
 #### GET MY FRANCHISES (By Franchisor)
 GET https://frency-api-ofjpwfxlpa-et.a.run.app/my_franchises
-- *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
-
-#### GET A FRANCHISE
-GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/(:franchise_id)
 - *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
 
 #### UPDATE FRANCHISE
@@ -114,6 +114,6 @@ PUT https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/(:franchise_id)
 DELETE https://frency-api-ofjpwfxlpa-et.a.run.app/franchises/(:franchise_id)
 - *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
 
-#### SEARCH FRANCHISES
+<!-- #### SEARCH FRANCHISES
 GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
-- *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd*
+- *Authorization: 4d13ae85-5656-4d69-8747-59fe57f481fd* -->

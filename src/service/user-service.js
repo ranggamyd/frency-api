@@ -9,84 +9,64 @@ import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { logger } from "../application/logging.js";
 
 const register = async (request) => {
   const user = validate(registerUserValidation, request);
 
   const countUser = await prismaClient.user.count({
-    where: {
-      email: user.email,
-    },
+    where: { email: user.email },
   });
 
-  if (countUser === 1) throw new ResponseError(400, "Email already exists");
+  if (countUser === 1)
+    throw new ResponseError(400, "Email already registered !");
 
   user.password = await bcrypt.hash(user.password, 10);
 
-  return prismaClient.user.create({
-    data: user,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      password: true,
-      role: true,
-      token: true,
-    },
-  });
+  return await prismaClient.user.create({ data: user });
 };
 
 const login = async (request) => {
   const loginRequest = validate(loginUserValidation, request);
 
   const user = await prismaClient.user.findUnique({
-    where: {
-      email: loginRequest.email,
-    },
+    where: { email: loginRequest.email },
   });
 
-  if (!user) throw new ResponseError(401, "Email or password wrong");
+  if (!user) throw new ResponseError(401, "Email is unregistered !");
 
   const isPasswordValid = await bcrypt.compare(
     loginRequest.password,
     user.password
   );
 
-  if (!isPasswordValid) throw new ResponseError(401, "Email or password wrong");
+  if (!isPasswordValid)
+    throw new ResponseError(401, "Credentials isn't match !");
 
   const token = uuid().toString();
 
-  return prismaClient.user.update({
-    data: {
-      token: token,
-    },
-    where: {
-      id: user.id,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      token: true,
-    },
+  return await prismaClient.user.update({
+    data: { token },
+    where: { id: user.id },
+  });
+};
+
+const logout = async (id) => {
+  id = validate(getUserValidation, id);
+
+  const user = await prismaClient.user.findUnique({ where: { id } });
+
+  if (!user) throw new ResponseError(404, "User not found !");
+
+  return await prismaClient.user.update({
+    where: { id },
+    data: { token: null },
   });
 };
 
 const getAll = async () => {
-  const user = await prismaClient.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      password: true,
-      role: true,
-      token: true,
-    },
-  });
+  const user = await prismaClient.user.findMany();
 
-  if (!user) throw new ResponseError(404, "user is not found");
+  if (!user) throw new ResponseError(404, "User not found !");
 
   return user;
 };
@@ -94,21 +74,9 @@ const getAll = async () => {
 const get = async (id) => {
   id = validate(getUserValidation, id);
 
-  const user = await prismaClient.user.findUnique({
-    where: {
-      id: id,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      password: true,
-      role: true,
-      token: true,
-    },
-  });
+  const user = await prismaClient.user.findUnique({ where: { id } });
 
-  if (!user) throw new ResponseError(404, "user is not found");
+  if (!user) throw new ResponseError(404, "User not found !");
 
   return user;
 };
@@ -117,12 +85,10 @@ const update = async (request) => {
   const updateRequest = validate(updateUserValidation, request);
 
   const user = await prismaClient.user.findUnique({
-    where: {
-      id: updateRequest.id,
-    },
+    where: { id: updateRequest.id },
   });
 
-  if (!user) throw new ResponseError(404, "user is not found");
+  if (!user) throw new ResponseError(404, "User not found !");
 
   const data = {};
   if (updateRequest.name) data.name = updateRequest.name;
@@ -131,56 +97,17 @@ const update = async (request) => {
   if (updateRequest.password)
     data.password = await bcrypt.hash(updateRequest.password, 10);
 
-  return prismaClient.user.update({
-    where: {
-      id: updateRequest.id,
-    },
-    data: data,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      password: true,
-      role: true,
-      token: true,
-    },
-  });
-};
-
-const logout = async (id) => {
-  id = validate(getUserValidation, id);
-
-  const user = await prismaClient.user.findUnique({
-    where: {
-      id: id,
-    },
-  });
-
-  if (!user) throw new ResponseError(404, "user is not found");
-
-  return prismaClient.user.update({
-    where: {
-      id: id,
-    },
-    data: {
-      token: null,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      password: true,
-      role: true,
-      token: true,
-    },
+  return await prismaClient.user.update({
+    where: { id: updateRequest.id },
+    data,
   });
 };
 
 export default {
   register,
   login,
+  logout,
   getAll,
   get,
   update,
-  logout,
 };

@@ -5,6 +5,7 @@ import { authMiddleware } from "../middleware/auth-middleware.js";
 import { uploadMiddleware } from "../middleware/upload-middleware.js";
 
 const userRouter = new express.Router();
+
 userRouter.use(authMiddleware);
 
 // User API
@@ -14,17 +15,17 @@ userRouter.patch("/users/current", userController.update);
 userRouter.delete("/users/logout", userController.logout);
 
 // Franchise API
+userRouter.get("/franchises", franchiseController.getAll);
+userRouter.get("/franchises/:franchiseId", franchiseController.get);
 userRouter.post("/franchises", franchiseController.create);
 userRouter.post(
   "/franchises/:franchiseId/upload",
   uploadMiddleware,
   franchiseController.uploadImages
 );
-userRouter.get("/franchises", franchiseController.getAll);
 userRouter.get("/my_franchises", franchiseController.getMyFranchises); // Posted By Franchisor
-userRouter.get("/franchises/:franchiseId", franchiseController.get);
 userRouter.put("/franchises/:franchiseId", franchiseController.update);
 userRouter.delete("/franchises/:franchiseId", franchiseController.remove);
-userRouter.get("/franchises", franchiseController.search);
+// userRouter.get("/franchises", franchiseController.search);
 
 export { userRouter };

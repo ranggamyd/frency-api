@@ -1,30 +1,18 @@
 import multer from "multer";
 
-// Konfigurasi penyimpanan file
 const storage = multer.memoryStorage();
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "uploads/"); // Tentukan direktori penyimpanan file
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, Date.now() + "-" + file.originalname); // Ubah nama file
-//   },
-// });
-
-// Filter untuk menerima hanya tipe file tertentu (jika diperlukan)
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/")) {
-    cb(null, true); // Terima file jika tipe adalah gambar
+    cb(null, true);
   } else {
-    cb(new Error("Only images are allowed."), false); // Tolak file jika bukan gambar
+    cb(new Error("Only images are allowed !"), false);
   }
 };
 
-// Konfigurasi upload untuk multiple files
 const uploadMiddleware = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { files: 5 },
-}).array("gallery", 10); // Mengizinkan hingga 5 file dengan field 'images'
+  limits: { files: 10 },
+}).array("gallery", 10);
 
 export { uploadMiddleware };
