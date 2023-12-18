@@ -11,13 +11,13 @@ Accept: application/json
 }
 
 ### LOGIN USER
-POST http://localhost:8080/users/login
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/users/login
 Content-Type: application/json
 Accept: application/json
 
 {
-  "email" : "john@example.com",
-  "password" : "string1"
+  "email" : "franchisor@frency.io",
+  "password" : "franchisor"
 }
 
 ### GET ALL USERS
@@ -78,16 +78,16 @@ Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 }
 
 ### GET ALL FRANCHISES
-GET http://localhost:8080/franchises
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 24b9e834-f6a3-47c8-a8fb-0d453134f3ce
 
 ### GET MY FRANCHISES
-GET http://localhost:8080/my_franchises
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/my_franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 24b9e834-f6a3-47c8-a8fb-0d453134f3ce
 
 ### GET A FRANCHISE
 GET http://localhost:8080/franchises/2
