@@ -50,7 +50,7 @@ model FranchiseType {
   id           Int       @id @default(autoincrement())
   franchise_id Int
   type_id      Int
-  franchise    Franchise @relation(fields: [franchise_id], references: [id])
+  franchise    Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
   type         Type      @relation(fields: [type_id], references: [id])
 
   @@map("franchise_types")
