@@ -30,8 +30,8 @@ model Franchise {
   description     String          @db.Text()
   category        String          @db.VarChar()
   whatsapp_number String          @db.VarChar()
-  franchisor_id   Int
-  franchisor      User            @relation(fields: [franchisor_id], references: [id])
+  franchisor_id   Int?
+  franchisor      User?           @relation(fields: [franchisor_id], references: [id], onDelete: SetNull)
   franchiseType   FranchiseType[]
   gallery         Gallery[]
 
@@ -49,9 +49,9 @@ model Type {
 model FranchiseType {
   id           Int       @id @default(autoincrement())
   franchise_id Int
-  type_id      Int
+  type_id      Int?
   franchise    Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
-  type         Type      @relation(fields: [type_id], references: [id])
+  type         Type?     @relation(fields: [type_id], references: [id], onDelete: SetNull)
 
   @@map("franchise_types")
 }
@@ -60,7 +60,7 @@ model Gallery {
   id           Int       @id @default(autoincrement())
   franchise_id Int
   image        String    @db.Text()
-  franchise    Franchise @relation(fields: [franchise_id], references: [id])
+  franchise    Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
 
   @@map("galleries")
 }
