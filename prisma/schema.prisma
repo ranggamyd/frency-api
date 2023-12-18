@@ -12,14 +12,13 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  name       String      @db.VarChar()
-  email      String      @unique @db.VarChar()
-  password   String      @db.VarChar()
-  role       String      @db.VarChar()
-  token      String?     @db.VarChar()
-  franchises Franchise[]
-  favorites  Favorite[]
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar()
+  email     String      @unique @db.VarChar()
+  password  String      @db.VarChar()
+  role      String      @db.VarChar()
+  token     String?     @db.VarChar()
+  franchise Franchise[]
 
   @@map("users")
 }
@@ -35,7 +34,6 @@ model Franchise {
   franchisor      User            @relation(fields: [franchisor_id], references: [id])
   franchiseType   FranchiseType[]
   gallery         Gallery[]
-  Favorites       Favorite[]
 
   @@map("franchises")
 }
@@ -65,14 +63,4 @@ model Gallery {
   franchise    Franchise @relation(fields: [franchise_id], references: [id])
 
   @@map("galleries")
-}
-
-model Favorite {
-  id            Int       @id @default(autoincrement())
-  franchise_id  Int
-  franchisee_id Int
-  franchise     Franchise @relation(fields: [franchise_id], references: [id])
-  franchisee    User      @relation(fields: [franchisee_id], references: [id])
-
-  @@map("favorites")
 }

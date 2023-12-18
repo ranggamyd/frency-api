@@ -4,10 +4,10 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name" : "string2",
-  "email" : "john@asessaxamsple.com",
-  "password" : "string2",
-  "role" : "string2"
+  "name" : "Franchisor 2",
+  "email" : "franchisor2@frency.io",
+  "password" : "Franchisor",
+  "role" : "Franchisor"
 }
 
 ### LOGIN USER
@@ -16,27 +16,27 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email" : "john@asessaxamsple.com",
-  "password" : "string2"
+  "email" : "john@example.com",
+  "password" : "string1"
 }
 
 ### GET ALL USERS
 GET http://localhost:8080/users
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### GET CURRENT USER
 GET http://localhost:8080/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### EDIT CURRENT USER
 PATCH http://localhost:8080/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 {
   "name" : "string1",
@@ -49,7 +49,7 @@ Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
 DELETE http://localhost:8080/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 
 
@@ -57,7 +57,7 @@ Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
 POST http://localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 {
   "franchise_name" : "string",
@@ -65,13 +65,13 @@ Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
   "description" : "string",
   "category" : "string",
   "whatsapp_number" : "string",
-  "franchiseType": [1, 2, 3]
+  "franchiseType": [1]
 }
 
 ### UPLOAD FRANCHISE GALLERY
 POST http://localhost:8080/franchises/3/upload
 Content-Type: multipart/form-data
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 {
   "gallery" : ["img1.jpg", "img2.jpg", "img2.jpg"]
@@ -81,25 +81,25 @@ Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
 GET http://localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### GET MY FRANCHISES
 GET http://localhost:8080/my_franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### GET A FRANCHISE
 GET http://localhost:8080/franchises/2
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### UPDATE FRANCHISE
 PUT http://localhost:8080/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 {
   "franchise_name" : "string 1",
@@ -114,10 +114,10 @@ Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
 DELETE http://localhost:8080/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### SEARCH FRANCHISES
 GET http://localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 581e468e-b0d9-4e44-8f0e-15e66cb1851c
+Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6

@@ -1,4 +1,3 @@
-import { logger } from "../application/logging.js";
 import franchiseService from "../service/franchise-service.js";
 
 const getAll = async (req, res, next) => {

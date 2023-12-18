@@ -1,3 +1,4 @@
+import { ResponseError } from "../error/response-error.js";
 import userService from "../service/user-service.js";
 
 const register = async (req, res, next) => {

@@ -32,6 +32,7 @@ const login = async (request) => {
     where: { email: loginRequest.email },
   });
 
+
   if (!user) throw new ResponseError(401, "Email is unregistered !");
 
   const isPasswordValid = await bcrypt.compare(
@@ -45,7 +46,7 @@ const login = async (request) => {
   const token = uuid().toString();
 
   return await prismaClient.user.update({
-    data: { token },
+    data: { token: token },
     where: { id: user.id },
   });
 };

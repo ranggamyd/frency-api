@@ -55,7 +55,6 @@ async function main() {
   await prisma.franchise.createMany({ data: franchises });
   await prisma.type.createMany({ data: types });
   await prisma.franchiseType.createMany({ data: franchiseTypes });
-  await prisma.gallery.createMany({ data: galleries });
 }
 
 main()

@@ -3,7 +3,7 @@ import {
   createFranchiseValidation,
   getFranchiseValidation,
   updateFranchiseValidation,
-  searchFranchiseValidation,
+  // searchFranchiseValidation,
 } from "../validation/franchise-validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
@@ -11,7 +11,37 @@ import { Storage } from "@google-cloud/storage";
 import { logger } from "../application/logging.js";
 
 const getAll = async () => {
-  const franchise = await prismaClient.franchise.findMany();
+  const franchise = await prismaClient.franchise.findMany({
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      franchiseType: {
+        select: {
+          type: {
+            select: {
+              id: true,
+              franchise_type: true,
+            },
+          },
+        },
+      },
+      gallery: {
+        select: {
+          image: true,
+        },
+      },
+    },
+  });
 
   if (!franchise) throw new ResponseError(404, "Franchise not found !");
 
@@ -21,7 +51,14 @@ const getAll = async () => {
 const get = async (id) => {
   id = validate(getFranchiseValidation, id);
 
-  const franchise = await prismaClient.franchise.findUnique({ where: { id } });
+  const franchise = await prismaClient.franchise.findUnique({
+    where: { id },
+    include: {
+      franchisor: true,
+      franchiseType: { include: { type: true } },
+      gallery: true,
+    },
+  });
 
   if (!franchise) throw new ResponseError(404, "Franchise not found !");
 
@@ -55,6 +92,11 @@ const create = async (user, request) => {
 
   return await prismaClient.franchise.findUnique({
     where: { id: createdFranchise.id },
+    include: {
+      franchisor: true,
+      franchiseType: { include: { type: true } },
+      gallery: true,
+    },
   });
 };
 
@@ -118,12 +160,22 @@ const uploadImages = async (franchiseId, request) => {
 
   return await prismaClient.franchise.findUnique({
     where: { id: parseInt(franchiseId) },
+    include: {
+      franchisor: true,
+      franchiseType: { include: { type: true } },
+      gallery: true,
+    },
   });
 };
 
 const getMyFranchises = async (user) => {
   const franchise = await prismaClient.franchise.findMany({
     where: { franchisor_id: user.id },
+    include: {
+      franchisor: true,
+      franchiseType: { include: { type: true } },
+      gallery: true,
+    },
   });
 
   if (!franchise) throw new ResponseError(404, "Franchise not found !");
