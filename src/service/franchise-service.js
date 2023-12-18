@@ -19,27 +19,11 @@ const getAll = async () => {
       description: true,
       category: true,
       whatsapp_number: true,
-      franchisor: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      franchisor: { select: { id: true, name: true } },
       franchiseType: {
-        select: {
-          type: {
-            select: {
-              id: true,
-              franchise_type: true,
-            },
-          },
-        },
+        select: { type: { select: { id: true, franchise_type: true } } },
       },
-      gallery: {
-        select: {
-          image: true,
-        },
-      },
+      gallery: { select: { image: true } },
     },
   });
 
@@ -53,10 +37,18 @@ const get = async (id) => {
 
   const franchise = await prismaClient.franchise.findUnique({
     where: { id },
-    include: {
-      franchisor: true,
-      franchiseType: { include: { type: true } },
-      gallery: true,
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: { select: { id: true, name: true } },
+      franchiseType: {
+        select: { type: { select: { id: true, franchise_type: true } } },
+      },
+      gallery: { select: { image: true } },
     },
   });
 
@@ -92,17 +84,25 @@ const create = async (user, request) => {
 
   return await prismaClient.franchise.findUnique({
     where: { id: createdFranchise.id },
-    include: {
-      franchisor: true,
-      franchiseType: { include: { type: true } },
-      gallery: true,
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: { select: { id: true, name: true } },
+      franchiseType: {
+        select: { type: { select: { id: true, franchise_type: true } } },
+      },
+      gallery: { select: { image: true } },
     },
   });
 };
 
 const storage = new Storage({
   projectId: "frency-api-408414",
-  keyFilename: "./gsa.json",
+  keyFilename: "https://storage.googleapis.com/frency/frency-api-408414-e752fb1588ca.json",
 });
 const bucket = storage.bucket("frency");
 
@@ -160,10 +160,18 @@ const uploadImages = async (franchiseId, request) => {
 
   return await prismaClient.franchise.findUnique({
     where: { id: parseInt(franchiseId) },
-    include: {
-      franchisor: true,
-      franchiseType: { include: { type: true } },
-      gallery: true,
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: { select: { id: true, name: true } },
+      franchiseType: {
+        select: { type: { select: { id: true, franchise_type: true } } },
+      },
+      gallery: { select: { image: true } },
     },
   });
 };
@@ -171,10 +179,18 @@ const uploadImages = async (franchiseId, request) => {
 const getMyFranchises = async (user) => {
   const franchise = await prismaClient.franchise.findMany({
     where: { franchisor_id: user.id },
-    include: {
-      franchisor: true,
-      franchiseType: { include: { type: true } },
-      gallery: true,
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: { select: { id: true, name: true } },
+      franchiseType: {
+        select: { type: { select: { id: true, franchise_type: true } } },
+      },
+      gallery: { select: { image: true } },
     },
   });
 
@@ -200,6 +216,19 @@ const update = async (user, request) => {
   updatedFranchise = await prismaClient.franchise.update({
     where: { id: franchiseData.id },
     data: franchiseData,
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: { select: { id: true, name: true } },
+      franchiseType: {
+        select: { type: { select: { id: true, franchise_type: true } } },
+      },
+      gallery: { select: { image: true } },
+    },
   });
 
   if (franchiseType && franchiseType.length > 0) {
