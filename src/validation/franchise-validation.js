@@ -22,13 +22,11 @@ const updateFranchiseValidation = Joi.object({
 });
 
 const searchFranchiseValidation = Joi.object({
-  page: Joi.number().min(1).positive().default(1),
-  size: Joi.number().min(1).positive().max(100).default(10),
-  // franchise_name: Joi.required(),
-  // address: Joi.required(),
-  // description: Joi.required(),
-  // category: Joi.required(),
-  // whatsapp_number: Joi.required(),
+  franchise_name: Joi.optional(),
+  address: Joi.optional(),
+  description: Joi.optional(),
+  category: Joi.optional(),
+  whatsapp_number: Joi.optional(),
 });
 
 export {

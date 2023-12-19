@@ -111,30 +111,27 @@ const remove = async (req, res, next) => {
   }
 };
 
-// const search = async (req, res, next) => {
-//   try {
-//     const request = {
-//       franchise_name: req.query.franchise_name,
-//       address: req.query.address,
-//       description: req.query.description,
-//       category: req.query.category,
-//       whatsapp_number: req.query.whatsapp_number,
-//       page: req.query.page,
-//       size: req.query.size,
-//     };
+const search = async (req, res, next) => {
+  try {
+    const request = {
+      franchise_name: req.query.franchise_name,
+      address: req.query.address,
+      description: req.query.description,
+      category: req.query.category,
+      whatsapp_number: req.query.whatsapp_number,
+    };
 
-//     const result = await franchiseService.search(request);
+    const result = await franchiseService.search(request);
 
-//     res.status(200).json({
-//       success: true,
-//       message: "Franchise data founded !",
-//       data: result.data,
-//       paging: result.paging,
-//     });
-//   } catch (e) {
-//     next(e);
-//   }
-// };
+    res.status(200).json({
+      success: true,
+      message: "Franchise data founded !",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
 
 export default {
   getAll,
@@ -144,5 +141,5 @@ export default {
   getMyFranchises,
   update,
   remove,
-  // search,
+  search,
 };

@@ -16,6 +16,7 @@ userRouter.delete("/users/logout", userController.logout);
 
 // Franchise API
 userRouter.get("/franchises", franchiseController.getAll);
+userRouter.get("/franchises/search", franchiseController.search);
 userRouter.get("/franchises/:franchiseId", franchiseController.get);
 userRouter.post("/franchises", franchiseController.create);
 userRouter.post(
@@ -26,6 +27,5 @@ userRouter.post(
 userRouter.get("/my_franchises", franchiseController.getMyFranchises); // Posted By Franchisor
 userRouter.put("/franchises/:franchiseId", franchiseController.update);
 userRouter.delete("/franchises/:franchiseId", franchiseController.remove);
-// userRouter.get("/franchises", franchiseController.search);
 
 export { userRouter };

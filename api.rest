@@ -90,10 +90,10 @@ Accept: application/json
 Authorization: 24b9e834-f6a3-47c8-a8fb-0d453134f3ce
 
 ### GET A FRANCHISE
-GET http://localhost:8080/franchises/2
+GET http://localhost:8080/franchises/1
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 583afdc2-7cb6-4453-bf4d-19fd0f94a95f
 
 ### UPDATE FRANCHISE
 PUT http://localhost:8080/franchises/3
@@ -117,7 +117,7 @@ Accept: application/json
 Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 
 ### SEARCH FRANCHISES
-GET http://localhost:8080/franchises
+GET http://localhost:8080/franchises/search?franchise_name=fr
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 583afdc2-7cb6-4453-bf4d-19fd0f94a95f

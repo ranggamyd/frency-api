@@ -3,7 +3,7 @@ import {
   createFranchiseValidation,
   getFranchiseValidation,
   updateFranchiseValidation,
-  // searchFranchiseValidation,
+  searchFranchiseValidation,
 } from "../validation/franchise-validation.js";
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
@@ -130,6 +130,8 @@ const uploadImages = async (franchiseId, request) => {
   let createdGallery = [];
 
   const gallery = request.files;
+
+  if (gallery.length === 0) throw new ResponseError(401, "Image file is required !");
 
   if (gallery && gallery.length > 0) {
     createdGallery = await Promise.all(
@@ -277,73 +279,47 @@ const remove = async (user, id) => {
   return await prismaClient.franchise.delete({ where: { id } });
 };
 
-// const search = async (request) => {
-//   request = validate(searchFranchiseValidation, request);
+const search = async (request) => {
+  request = validate(searchFranchiseValidation, request);
 
-//   // 1 ((page - 1) * size) = 0
-//   // 2 ((page - 1) * size) = 10
-//   const skip = (request.page - 1) * request.size;
+  const filters = [];
+  if (request.franchise_name)
+    filters.push({
+      franchise_name: { contains: request.franchise_name, mode: "insensitive" },
+    });
 
-//   const filters = [];
-//   if (request.franchise_name) {
-//     filters.push({
-//       franchise_name: {
-//         contains: request.name,
-//       },
-//     });
-//   }
-//   if (request.address) {
-//     filters.push({
-//       address: {
-//         contains: request.address,
-//       },
-//     });
-//   }
-//   if (request.description) {
-//     filters.push({
-//       description: {
-//         contains: request.description,
-//       },
-//     });
-//   }
-//   if (request.category) {
-//     filters.push({
-//       category: {
-//         contains: request.category,
-//       },
-//     });
-//   }
-//   if (request.whatsapp_number) {
-//     filters.push({
-//       whatsapp_number: {
-//         contains: request.whatsapp_number,
-//       },
-//     });
-//   }
+  if (request.address)
+    filters.push({
+      address: { contains: request.address, mode: "insensitive" },
+    });
 
-//   const franchises = await prismaClient.franchise.findMany({
-//     where: {
-//       AND: filters,
-//     },
-//     take: request.size,
-//     skip: skip,
-//   });
+  if (request.description)
+    filters.push({
+      description: { contains: request.description, mode: "insensitive" },
+    });
 
-//   const totalItems = await prismaClient.franchise.count({
-//     where: {
-//       AND: filters,
-//     },
-//   });
+  if (request.category)
+    filters.push({
+      category: { contains: request.category, mode: "insensitive" },
+    });
 
-//   return {
-//     data: franchises,
-//     paging: {
-//       page: request.page,
-//       total_item: totalItems,
-//       total_page: Math.ceil(totalItems / request.size),
-//     },
-//   };
-// };
+  return await prismaClient.franchise.findMany({
+    where: { AND: filters },
+    select: {
+      id: true,
+      franchise_name: true,
+      address: true,
+      description: true,
+      category: true,
+      whatsapp_number: true,
+      franchisor: { select: { id: true, name: true } },
+      franchiseType: {
+        select: { type: { select: { id: true, franchise_type: true } } },
+      },
+      gallery: { select: { image: true } },
+    },
+  });
+};
 
 export default {
   getAll,
@@ -353,5 +329,5 @@ export default {
   getMyFranchises,
   update,
   remove,
-  // search,
+  search,
 };
