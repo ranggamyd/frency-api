@@ -18,7 +18,6 @@ const createFranchiseValidation = Joi.object({
 });
 
 const updateFranchiseValidation = Joi.object({
-  id: Joi.number().positive().required(),
   franchise_name: Joi.required(),
   address: Joi.optional(),
   description: Joi.optional(),

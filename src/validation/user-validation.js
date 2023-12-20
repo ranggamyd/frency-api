@@ -16,15 +16,4 @@ const loginUserValidation = Joi.object({
   password: Joi.required(),
 });
 
-const updateUserValidation = Joi.object({
-  name: Joi.optional(),
-  email: Joi.optional(),
-  phone: Joi.optional(),
-  username: Joi.optional(),
-  gender: Joi.optional(),
-  avatar: Joi.optional(),
-  password: Joi.optional(),
-  role: Joi.optional(),
-});
-
-export { registerUserValidation, loginUserValidation, updateUserValidation };
+export { registerUserValidation, loginUserValidation };

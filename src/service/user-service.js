@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database.js";
 import { validate } from "../validation/validation.js";
-import { registerUserValidation, loginUserValidation, updateUserValidation } from "../validation/user-validation.js";
+import { registerUserValidation, loginUserValidation } from "../validation/user-validation.js";
 import { ResponseError } from "../error/response-error.js";
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
@@ -86,7 +86,7 @@ const storage = new Storage({
 });
 
 const update = async (request) => {
-  const updateRequest = validate(updateUserValidation, request.body);
+  const updateRequest = request.body;
 
   const user = await prismaClient.user.findUnique({ where: { id: updateRequest.id } });
   if (!user) throw new ResponseError(404, "User not found !");
@@ -99,7 +99,8 @@ const update = async (request) => {
   };
 
   updateRequest.avatar = user.avatar;
-  if (request.files.avatar) {
+  if (request.file) {
+    const image = request.file;
     const fileName = Date.now() + "-" + image.originalname;
     const gcsFile = storage.bucket("frency").file("avatar/" + fileName);
 
@@ -145,9 +146,6 @@ const update = async (request) => {
   }
   
   if (updateRequest.password && (updateRequest.password !== "")) updateData.password = await bcrypt.hash(updateRequest.password, 10);
-  
-logger.info(updateRequest.id);
-logger.info(updateData.id);
 
   return await prismaClient.user.update({
     where: { id: updateRequest.id },
