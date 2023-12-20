@@ -1,4 +1,3 @@
-import { ResponseError } from "../error/response-error.js";
 import userService from "../service/user-service.js";
 
 const register = async (req, res, next) => {
@@ -59,8 +58,7 @@ const getAll = async (req, res, next) => {
 
 const get = async (req, res, next) => {
   try {
-    const id = req.user.id;
-    const result = await userService.get(id);
+    const result = await userService.get(req.user.id);
 
     res.status(200).json({
       success: true,
@@ -74,11 +72,10 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const id = req.user.id;
-    const request = req.body;
-    request.id = id;
+    req.body.id = req.user.id;
 
-    const result = await userService.update(request);
+    const result = await userService.update(req);
+
     res.status(200).json({
       success: true,
       message: "User data updated successfully !",
@@ -89,11 +86,4 @@ const update = async (req, res, next) => {
   }
 };
 
-export default {
-  register,
-  login,
-  logout,
-  getAll,
-  get,
-  update,
-};
+export default { register, login, logout, getAll, get, update };

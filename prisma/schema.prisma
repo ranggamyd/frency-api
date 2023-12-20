@@ -7,18 +7,23 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = "postgresql://postgres:postgres@34.101.80.253:5432/frency_db"
-  url      = "postgresql://postgres:postgres@localhost/frency_db?host=/cloudsql/frency-api-408414:asia-southeast2:frency/"
+  url      = "postgresql://postgres:postgres@34.101.80.253:5432/frency_db"
+  // url      = "postgresql://postgres:postgres@localhost/frency_db?host=/cloudsql/frency-api-408414:asia-southeast2:frency/"
 }
 
 model User {
   id        Int         @id @default(autoincrement())
   name      String      @db.VarChar()
   email     String      @unique @db.VarChar()
+  phone     String?     @db.VarChar()
+  username  String?     @unique @db.VarChar()
+  gender    String?     @db.VarChar()
+  avatar    String?     @db.Text()
   password  String      @db.VarChar()
   role      String      @db.VarChar()
   token     String?     @db.VarChar()
   franchise Franchise[]
+  favorite  Favorite[]
 
   @@map("users")
 }
@@ -26,14 +31,15 @@ model User {
 model Franchise {
   id              Int             @id @default(autoincrement())
   franchise_name  String          @db.VarChar()
-  address         String          @db.VarChar()
-  description     String          @db.Text()
+  address         String?         @db.VarChar()
+  description     String?         @db.Text()
   category        String          @db.VarChar()
   whatsapp_number String          @db.VarChar()
   franchisor_id   Int?
   franchisor      User?           @relation(fields: [franchisor_id], references: [id], onDelete: SetNull)
   franchiseType   FranchiseType[]
   gallery         Gallery[]
+  favorite        Favorite[]
 
   @@map("franchises")
 }
@@ -49,9 +55,11 @@ model Type {
 model FranchiseType {
   id           Int       @id @default(autoincrement())
   franchise_id Int
-  type_id      Int?
+  type_id      Int
+  facility     String
+  price        String
   franchise    Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
-  type         Type?     @relation(fields: [type_id], references: [id], onDelete: SetNull)
+  type         Type      @relation(fields: [type_id], references: [id], onDelete: Cascade)
 
   @@map("franchise_types")
 }
@@ -63,4 +71,14 @@ model Gallery {
   franchise    Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
 
   @@map("galleries")
+}
+
+model Favorite {
+  id            Int       @id @default(autoincrement())
+  franchise_id  Int
+  franchisee_id Int?
+  franchise     Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
+  franchisee    User?     @relation(fields: [franchisee_id], references: [id], onDelete: Cascade)
+
+  @@map("favorites")
 }

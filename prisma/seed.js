@@ -9,13 +9,19 @@ async function main() {
       name: "Franchisor",
       email: "franchisor@frency.io",
       password: await bcrypt.hash("franchisor", 10),
-      role: "Franchisor",
+      role: "franchisor",
+    },
+    {
+      name: "Franchisor 2",
+      email: "franchisor2@frency.io",
+      password: await bcrypt.hash("franchisor", 10),
+      role: "franchisor",
     },
     {
       name: "Franchisee",
       email: "franchisee@frency.io",
       password: await bcrypt.hash("franchisee", 10),
-      role: "Franchisee",
+      role: "franchisee",
     },
   ];
 
@@ -34,27 +40,45 @@ async function main() {
       description: "Another amazing franchise!",
       category: "Retail",
       whatsapp_number: "987654321",
+      franchisor_id: 1,
+    },
+    {
+      franchise_name: "Franchise C",
+      address: "456 Elm St",
+      description: "Another amazing franchise!",
+      category: "Retail",
+      whatsapp_number: "987654321",
       franchisor_id: 2,
     },
   ];
 
   const types = [
-    { franchise_type: "Type A" },
-    { franchise_type: "Type B" },
-    { franchise_type: "Type C" },
+    { franchise_type: "Stand" },
+    { franchise_type: "Store" },
+    { franchise_type: "Kios" },
+    { franchise_type: "Outlet" },
+    { franchise_type: "Mini Market" },
   ];
 
   const franchiseTypes = [
-    { franchise_id: 1, type_id: 1 },
-    { franchise_id: 1, type_id: 2 },
-    { franchise_id: 2, type_id: 2 },
-    { franchise_id: 2, type_id: 3 },
+    { franchise_id: 1, type_id: 1, facility: "any string", price: "123" },
+    { franchise_id: 1, type_id: 2, facility: "any string", price: "123" },
+    { franchise_id: 2, type_id: 2, facility: "any string", price: "123" },
+    { franchise_id: 2, type_id: 3, facility: "any string", price: "123" },
+    { franchise_id: 3, type_id: 3, facility: "any string", price: "123" },
+    { franchise_id: 3, type_id: 4, facility: "any string", price: "123" },
+  ];
+
+  const favorites = [
+    { franchise_id: 1, franchisee_id: 3 },
+    { franchise_id: 2, franchisee_id: 3 },
   ];
 
   await prisma.user.createMany({ data: users });
   await prisma.franchise.createMany({ data: franchises });
   await prisma.type.createMany({ data: types });
   await prisma.franchiseType.createMany({ data: franchiseTypes });
+  await prisma.favorite.createMany({ data: favorites });
 }
 
 main()

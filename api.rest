@@ -1,17 +1,17 @@
 ### REGISTER USER
-POST http://localhost:8080/users
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/users
 Content-Type: application/json
 Accept: application/json
 
 {
-  "name" : "Franchisor 2",
-  "email" : "franchisor2@frency.io",
+  "name" : "Franchisor 9",
+  "email" : "franchisor9@frency.io",
   "password" : "Franchisor",
   "role" : "Franchisor"
 }
 
 ### LOGIN USER
-POST https://frency-api-ofjpwfxlpa-et.a.run.app/users/login
+POST http://localhost:8080/users/login
 Content-Type: application/json
 Accept: application/json
 
@@ -24,19 +24,19 @@ Accept: application/json
 GET http://localhost:8080/users
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 ### GET CURRENT USER
 GET http://localhost:8080/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 ### EDIT CURRENT USER
 PATCH http://localhost:8080/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 {
   "name" : "string1",
@@ -49,7 +49,7 @@ Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 DELETE http://localhost:8080/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 
 
@@ -57,7 +57,7 @@ Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 POST http://localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 11d5f0b2-64e5-4c6a-b1bf-5b4df7f1c9ce
 
 {
   "franchise_name" : "string",
@@ -65,41 +65,52 @@ Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
   "description" : "string",
   "category" : "string",
   "whatsapp_number" : "string",
-  "franchiseType": [1]
+  "franchiseType": [
+    {
+    "type_id": 1,
+    "facility": "ashd",
+    "price": "123"
+    },
+    {
+      "type_id": 2,
+      "facility": "ashd",
+      "price": "123"
+    },
+  ]
 }
 
 ### UPLOAD FRANCHISE GALLERY
 POST http://localhost:8080/franchises/3/upload
 Content-Type: multipart/form-data
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 {
   "gallery" : ["img1.jpg", "img2.jpg", "img2.jpg"]
 }
 
 ### GET ALL FRANCHISES
-GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
+GET http://localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 24b9e834-f6a3-47c8-a8fb-0d453134f3ce
+Authorization: 11d5f0b2-64e5-4c6a-b1bf-5b4df7f1c9ce
 
 ### GET MY FRANCHISES
-GET https://frency-api-ofjpwfxlpa-et.a.run.app/my_franchises
+GET http://localhost:8080/usersmy_franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 24b9e834-f6a3-47c8-a8fb-0d453134f3ce
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 ### GET A FRANCHISE
 GET http://localhost:8080/franchises/1
 Content-Type: application/json
 Accept: application/json
-Authorization: 583afdc2-7cb6-4453-bf4d-19fd0f94a95f
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 ### UPDATE FRANCHISE
 PUT http://localhost:8080/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 {
   "franchise_name" : "string 1",
@@ -114,10 +125,10 @@ Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
 DELETE http://localhost:8080/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: c531f211-2cd1-4a98-b0d8-b7abe56ef2d6
+Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 ### SEARCH FRANCHISES
-GET http://localhost:8080/franchises/search?franchise_name=fr
+GET http://localhost:8080/franchises/search?franchise_type=store
 Content-Type: application/json
 Accept: application/json
-Authorization: 583afdc2-7cb6-4453-bf4d-19fd0f94a95f
+Authorization: 11d5f0b2-64e5-4c6a-b1bf-5b4df7f1c9ce

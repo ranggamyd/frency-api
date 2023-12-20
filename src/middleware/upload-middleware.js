@@ -15,4 +15,9 @@ const uploadMiddleware = multer({
   limits: { files: 10 },
 }).array("gallery", 10);
 
-export { uploadMiddleware };
+const avatarMiddleware = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+}).single("avatar");
+
+export { uploadMiddleware, avatarMiddleware };

@@ -16,8 +16,7 @@ const getAll = async (req, res, next) => {
 
 const get = async (req, res, next) => {
   try {
-    const franchiseId = req.params.franchiseId;
-    const result = await franchiseService.get(franchiseId);
+    const result = await franchiseService.get(req.params.franchiseId);
 
     res.status(200).json({
       success: true,
@@ -31,9 +30,7 @@ const get = async (req, res, next) => {
 
 const create = async (req, res, next) => {
   try {
-    const user = req.user;
-    const request = req.body;
-    const result = await franchiseService.create(user, request);
+    const result = await franchiseService.create(req.user, req.body);
 
     res.status(200).json({
       success: true,
@@ -47,9 +44,7 @@ const create = async (req, res, next) => {
 
 const uploadImages = async (req, res, next) => {
   try {
-    const franchiseId = req.params.franchiseId;
-    const request = req;
-    const result = await franchiseService.uploadImages(franchiseId, request);
+    const result = await franchiseService.uploadImages(req.params.franchiseId, req);
 
     res.status(200).json({
       success: true,
@@ -63,8 +58,7 @@ const uploadImages = async (req, res, next) => {
 
 const getMyFranchises = async (req, res, next) => {
   try {
-    const user = req.user;
-    const result = await franchiseService.getMyFranchises(user);
+    const result = await franchiseService.getMyFranchises(req.user);
 
     res.status(200).json({
       success: true,
@@ -78,12 +72,9 @@ const getMyFranchises = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const user = req.user;
-    const franchiseId = req.params.franchiseId;
-    const request = req.body;
-    request.id = franchiseId;
+    req.body.id = req.params.franchiseId;
 
-    const result = await franchiseService.update(user, request);
+    const result = await franchiseService.update(req.user, req);
 
     res.status(200).json({
       success: true,
@@ -97,10 +88,8 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    const user = req.user;
-    const franchiseId = req.params.franchiseId;
+    await franchiseService.remove(req.user, req.params.franchiseId);
 
-    await franchiseService.remove(user, franchiseId);
     res.status(200).json({
       success: true,
       message: "Franchise data deleted successfully !",
@@ -113,12 +102,15 @@ const remove = async (req, res, next) => {
 
 const search = async (req, res, next) => {
   try {
+    const query = req.query;
+
     const request = {
-      franchise_name: req.query.franchise_name,
-      address: req.query.address,
-      description: req.query.description,
-      category: req.query.category,
-      whatsapp_number: req.query.whatsapp_number,
+      franchise_name: query.franchise_name,
+      address: query.address,
+      category: query.category,
+      franchise_type: query.franchise_type,
+      facility: query.facility,
+      price: query.price,
     };
 
     const result = await franchiseService.search(request);
@@ -133,13 +125,4 @@ const search = async (req, res, next) => {
   }
 };
 
-export default {
-  getAll,
-  get,
-  create,
-  uploadImages,
-  getMyFranchises,
-  update,
-  remove,
-  search,
-};
+export default { getAll, get, create, uploadImages, getMyFranchises, update, remove, search };

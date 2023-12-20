@@ -1,11 +1,6 @@
-import { validate } from "../validation/validation.js";
-import {
-  createFranchiseValidation,
-  getFranchiseValidation,
-  updateFranchiseValidation,
-  searchFranchiseValidation,
-} from "../validation/franchise-validation.js";
 import { prismaClient } from "../application/database.js";
+import { validate } from "../validation/validation.js";
+import { createFranchiseValidation, updateFranchiseValidation, searchFranchiseValidation } from "../validation/franchise-validation.js";
 import { ResponseError } from "../error/response-error.js";
 import { Storage } from "@google-cloud/storage";
 import { logger } from "../application/logging.js";
@@ -20,10 +15,8 @@ const getAll = async () => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 
@@ -45,10 +38,8 @@ const get = async (id) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 
@@ -58,26 +49,17 @@ const get = async (id) => {
 };
 
 const create = async (user, request) => {
-  const { franchiseType, ...franchiseData } = validate(
-    createFranchiseValidation,
-    request
-  );
+  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
+
+  const { franchiseType, ...franchiseData } = validate(createFranchiseValidation, request);
   franchiseData.franchisor_id = user.id;
 
-  let createdFranchise;
-  let createdFranchiseType = [];
+  const createdFranchise = await prismaClient.franchise.create({ data: franchiseData });
 
-  createdFranchise = await prismaClient.franchise.create({
-    data: franchiseData,
-  });
-
-  if (franchiseType && franchiseType.length > 0) {
-    createdFranchiseType = await Promise.all(
-      franchiseType.map(async (type_id) => {
-        const createdAssociation = await prismaClient.franchiseType.create({
-          data: { franchise_id: createdFranchise.id, type_id },
-        });
-        return createdAssociation;
+  if (franchiseType && (franchiseType.length > 0)) {
+    await Promise.all(
+      franchiseType.map(async (item) => {
+        return await prismaClient.franchiseType.create({ data: { franchise_id: createdFranchise.id, type_id: item.type_id, facility: item.facility, price: item.price } });
       })
     );
   }
@@ -92,10 +74,8 @@ const create = async (user, request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 };
@@ -118,27 +98,21 @@ const storage = new Storage({
     universe_domain: "googleapis.com",
   },
 });
-const bucket = storage.bucket("frency");
 
 const uploadImages = async (franchiseId, request) => {
-  const franchise = await prismaClient.franchise.findUnique({
-    where: { id: parseInt(franchiseId) },
-  });
+  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
 
+  const franchise = await prismaClient.franchise.findUnique({ where: { id: parseInt(franchiseId) } });
   if (!franchise) throw new ResponseError(404, "Franchise not found !");
 
-  let createdGallery = [];
-
   const gallery = request.files;
-
   if (gallery.length === 0) throw new ResponseError(401, "Image file is required !");
 
   if (gallery && gallery.length > 0) {
-    createdGallery = await Promise.all(
+    await Promise.all(
       gallery.map(async (image) => {
         const fileName = Date.now() + "-" + image.originalname;
-        const destination = "uploads/" + fileName;
-        const gcsFile = bucket.file(destination);
+        const gcsFile = storage.bucket("frency").file("uploads/" + fileName);
 
         const stream = gcsFile.createWriteStream({
           metadata: { contentType: image.mimetype },
@@ -167,9 +141,7 @@ const uploadImages = async (franchiseId, request) => {
           stream.end(image.buffer);
         });
 
-        await uploadPromise.catch((err) => {
-          throw err;
-        });
+        await uploadPromise.catch((err) => { throw err });
       })
     );
   }
@@ -184,15 +156,15 @@ const uploadImages = async (franchiseId, request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 };
 
 const getMyFranchises = async (user) => {
+  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
+
   const franchise = await prismaClient.franchise.findMany({
     where: { franchisor_id: user.id },
     select: {
@@ -203,10 +175,8 @@ const getMyFranchises = async (user) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 
@@ -216,20 +186,14 @@ const getMyFranchises = async (user) => {
 };
 
 const update = async (user, request) => {
-  const { franchiseType, ...franchiseData } = validate(
-    updateFranchiseValidation,
-    request
-  );
+  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
 
-  const franchise = await prismaClient.franchise.findFirst({
-    where: { id: franchiseData.id, franchisor_id: user.id },
-  });
+  const { franchiseType, ...franchiseData } = validate(updateFranchiseValidation, request);
 
+  const franchise = await prismaClient.franchise.findFirst({ where: { id: franchiseData.id, franchisor_id: user.id } });
   if (!franchise) throw new Error("Franchise not found !");
 
-  let updatedFranchise;
-
-  updatedFranchise = await prismaClient.franchise.update({
+  const updatedFranchise = await prismaClient.franchise.update({
     where: { id: franchiseData.id },
     data: franchiseData,
     select: {
@@ -240,40 +204,30 @@ const update = async (user, request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 
-  if (franchiseType && franchiseType.length > 0) {
-    await prismaClient.franchiseType.deleteMany({
-      where: { franchise_id: franchiseData.id },
-    });
+  if (franchiseType && (franchiseType.length > 0)) {
+    await prismaClient.franchiseType.deleteMany({ where: { franchise_id: franchiseData.id } });
 
-    const createdFranchiseType = await Promise.all(
-      franchiseType.map(async (type_id) => {
-        const createdAssociation = await prismaClient.franchiseType.create({
-          data: { franchise_id: franchiseData.id, type_id },
-        });
-        return createdAssociation;
+    await Promise.all(
+      franchiseType.map(async (item) => {
+        return await prismaClient.franchiseType.create({ data: { franchise_id: updatedFranchise.id, type_id: item.type_id, facility: item.facility, price: item.price } });
       })
     );
-
-    updatedFranchise.franchiseType = createdFranchiseType;
   }
 
   return updatedFranchise;
 };
 
 const remove = async (user, id) => {
+  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
+
   id = validate(getFranchiseValidation, id);
 
-  const franchise = await prismaClient.franchise.count({
-    where: { franchisor_id: user.id, id },
-  });
-
+  const franchise = await prismaClient.franchise.findFirst({ where: { id, franchisor_id: user.id } });
   if (!franchise) throw new ResponseError(404, "Franchise not found !");
 
   return await prismaClient.franchise.delete({ where: { id } });
@@ -282,29 +236,19 @@ const remove = async (user, id) => {
 const search = async (request) => {
   request = validate(searchFranchiseValidation, request);
 
-  const filters = [];
-  if (request.franchise_name)
-    filters.push({
-      franchise_name: { contains: request.franchise_name, mode: "insensitive" },
-    });
-
-  if (request.address)
-    filters.push({
-      address: { contains: request.address, mode: "insensitive" },
-    });
-
-  if (request.description)
-    filters.push({
-      description: { contains: request.description, mode: "insensitive" },
-    });
-
-  if (request.category)
-    filters.push({
-      category: { contains: request.category, mode: "insensitive" },
-    });
+  logger.info(request);
 
   return await prismaClient.franchise.findMany({
-    where: { AND: filters },
+    where: { 
+      AND: [
+        { franchise_name: { contains: request.franchise_name, mode: "insensitive" } },
+        { address: { contains: request.address, mode: "insensitive" } },
+        { category: { contains: request.category, mode: "insensitive" } },
+        { franchiseType: { some: { type: { franchise_type: { contains: request.franchise_type, mode: "insensitive" } } } } },
+        { franchiseType: { some: { facility: { contains: request.facility, mode: "insensitive" } } } },
+        { franchiseType: { some: { price: { contains: request.price, mode: "insensitive" } } } },
+      ],
+    },
     select: {
       id: true,
       franchise_name: true,
@@ -313,21 +257,11 @@ const search = async (request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: {
-        select: { type: { select: { id: true, franchise_type: true } } },
-      },
-      gallery: { select: { image: true } },
+      franchiseType: { include: { type: true } },
+      gallery: true,
     },
   });
 };
 
-export default {
-  getAll,
-  get,
-  create,
-  uploadImages,
-  getMyFranchises,
-  update,
-  remove,
-  search,
-};
+export default { getAll, get, create, uploadImages, getMyFranchises, update, remove, search };
+

@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "npx prisma generate && node ."
+    "start": "npx prisma generate && node .",
+    "dev": "node ."
   },
   "prisma": {
     "seed": "node prisma/seed.js"
