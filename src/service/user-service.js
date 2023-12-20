@@ -146,6 +146,9 @@ const update = async (request) => {
   
   if (updateRequest.password && (updateRequest.password !== "")) updateData.password = await bcrypt.hash(updateRequest.password, 10);
   
+logger.info(updateRequest.id);
+logger.info(updateData.id);
+
   return await prismaClient.user.update({
     where: { id: updateRequest.id },
     data: updateData,

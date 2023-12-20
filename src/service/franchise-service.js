@@ -244,7 +244,7 @@ const search = async (request) => {
         { franchise_name: { contains: request.franchise_name, mode: "insensitive" } },
         { address: { contains: request.address, mode: "insensitive" } },
         { category: { contains: request.category, mode: "insensitive" } },
-        { franchiseType: { some: { type: { franchise_type: { contains: request.franchise_type, mode: "insensitive" } } } } },
+        { franchiseType: { some: { franchise_type: { contains: request.franchise_type, mode: "insensitive" } } } },
         { franchiseType: { some: { facility: { contains: request.facility, mode: "insensitive" } } } },
         { franchiseType: { some: { price: { contains: request.price, mode: "insensitive" } } } },
       ],

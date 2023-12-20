@@ -9,7 +9,7 @@ const createFranchiseValidation = Joi.object({
   franchiseType: Joi.array()
     .items(
       Joi.object({
-        type_id: Joi.number().positive().required(),
+        franchise_type: Joi.required(),
         facility: Joi.required(),
         price: Joi.required(),
       })
@@ -27,7 +27,7 @@ const updateFranchiseValidation = Joi.object({
   franchiseType: Joi.array()
     .items(
       Joi.object({
-        type_id: Joi.number().positive().required(),
+        franchise_type: Joi.required(),
         facility: Joi.required(),
         price: Joi.required(),
       })

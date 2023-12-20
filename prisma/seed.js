@@ -52,21 +52,13 @@ async function main() {
     },
   ];
 
-  const types = [
-    { franchise_type: "Stand" },
-    { franchise_type: "Store" },
-    { franchise_type: "Kios" },
-    { franchise_type: "Outlet" },
-    { franchise_type: "Mini Market" },
-  ];
-
   const franchiseTypes = [
-    { franchise_id: 1, type_id: 1, facility: "any string", price: "123" },
-    { franchise_id: 1, type_id: 2, facility: "any string", price: "123" },
-    { franchise_id: 2, type_id: 2, facility: "any string", price: "123" },
-    { franchise_id: 2, type_id: 3, facility: "any string", price: "123" },
-    { franchise_id: 3, type_id: 3, facility: "any string", price: "123" },
-    { franchise_id: 3, type_id: 4, facility: "any string", price: "123" },
+    { franchise_id: 1, franchise_type: "Stand", facility: "any string", price: "123" },
+    { franchise_id: 1, franchise_type: "Store", facility: "any string", price: "123" },
+    { franchise_id: 2, franchise_type: "Kios", facility: "any string", price: "123" },
+    { franchise_id: 2, franchise_type: "Outlet", facility: "any string", price: "123" },
+    { franchise_id: 3, franchise_type: "Resto", facility: "any string", price: "123" },
+    { franchise_id: 3, franchise_type: "Mini market", facility: "any string", price: "123" },
   ];
 
   const favorites = [
@@ -76,7 +68,6 @@ async function main() {
 
   await prisma.user.createMany({ data: users });
   await prisma.franchise.createMany({ data: franchises });
-  await prisma.type.createMany({ data: types });
   await prisma.franchiseType.createMany({ data: franchiseTypes });
   await prisma.favorite.createMany({ data: favorites });
 }
