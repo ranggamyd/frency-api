@@ -60,7 +60,7 @@ const getAll = async () => {
 };
 
 const get = async (id) => {
-  const user = await prismaClient.user.findUnique({ where: { id }, include: { franchise: true, favorite: true } });
+  const user = await prismaClient.user.findUnique({ where: { id: id }, include: { franchise: true, favorite: true } });
   if (!user) throw new ResponseError(404, "User not found !");
 
   return user;
