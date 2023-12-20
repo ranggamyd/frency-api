@@ -1,6 +1,7 @@
 import express from "express";
 import userController from "../controller/user-controller.js";
 import franchiseController from "../controller/franchise-controller.js";
+import favoriteController from "../controller/favorite-controller.js";
 import { authMiddleware } from "../middleware/auth-middleware.js";
 import { uploadMiddleware, avatarMiddleware } from "../middleware/upload-middleware.js";
 
@@ -25,7 +26,7 @@ userRouter.put("/franchises/:franchiseId", franchiseController.update);
 userRouter.delete("/franchises/:franchiseId", franchiseController.remove);
 
 // Favorite API
-userRouter.get("/favorites", favoriteController.getAll);
+userRouter.get("/favorites", favoriteController.getFavorites);
 userRouter.post("/favorites", favoriteController.favorite);
 userRouter.delete("/favorites", favoriteController.unfavorite);
 

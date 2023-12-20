@@ -5,7 +5,7 @@ import { ResponseError } from "../error/response-error.js";
 import { Storage } from "@google-cloud/storage";
 import { logger } from "../application/logging.js";
 
-const getMyFranchises = async (user) => {
+const getAll = async (user) => {
   const franchise = await prismaClient.franchise.findMany({
     where: { franchisor_id: user.id },
     select: {
@@ -104,5 +104,5 @@ const search = async (request) => {
   });
 };
 
-export default { getAll, get, create, uploadImages, getMyFranchises, update, remove, search };
+export default { getAll };
 
