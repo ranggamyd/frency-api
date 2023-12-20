@@ -6,8 +6,6 @@ import { Storage } from "@google-cloud/storage";
 import { logger } from "../application/logging.js";
 
 const getMyFranchises = async (user) => {
-  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
-
   const franchise = await prismaClient.franchise.findMany({
     where: { franchisor_id: user.id },
     select: {

@@ -98,8 +98,6 @@ const storage = new Storage({
 });
 
 const uploadImages = async (franchiseId, request) => {
-  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
-
   const franchise = await prismaClient.franchise.findUnique({ where: { id: parseInt(franchiseId) } });
   if (!franchise) throw new ResponseError(404, "Franchise not found !");
 
@@ -161,8 +159,6 @@ const uploadImages = async (franchiseId, request) => {
 };
 
 const getMyFranchises = async (user) => {
-  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
-
   const franchise = await prismaClient.franchise.findMany({
     where: { franchisor_id: user.id },
     select: {
@@ -184,8 +180,6 @@ const getMyFranchises = async (user) => {
 };
 
 const update = async (user, request) => {
-  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
-
   const { franchiseType, ...franchiseData } = validate(updateFranchiseValidation, request);
 
   const franchise = await prismaClient.franchise.findFirst({ where: { id: franchiseData.id, franchisor_id: user.id } });
@@ -221,8 +215,6 @@ const update = async (user, request) => {
 };
 
 const remove = async (user, id) => {
-  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
-
   id = validate(getFranchiseValidation, id);
 
   const franchise = await prismaClient.franchise.findFirst({ where: { id, franchisor_id: user.id } });

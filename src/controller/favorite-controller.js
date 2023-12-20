@@ -2,7 +2,7 @@ import favoriteService from "../service/favorite-service.js";
 
 const getFavorites = async (req, res, next) => {
   try {
-    const result = await favoriteService.getAll();
+    const result = await favoriteService.getAll(req.user);
 
     res.status(200).json({
       success: true,
@@ -20,7 +20,7 @@ const favorite = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Favorited franchise successfully added !",
+      message: "Franchise successfully added to favorite !",
       data: "OK",
     });
   } catch (e) {
@@ -34,7 +34,7 @@ const unfavorite = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: "Favorited franchise successfully removed !",
+      message: "Franchise successfully removed from favorite !",
       data: "OK",
     });
   } catch (e) {
