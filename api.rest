@@ -54,30 +54,12 @@ Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 
 
 ### POST FRANCHISE
-POST http://localhost:8080/franchises
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 11d5f0b2-64e5-4c6a-b1bf-5b4df7f1c9ce
+Authorization: 60018f78-698c-4885-a236-708be414e750
 
-{
-  "franchise_name" : "string",
-  "address" : "string",
-  "description" : "string",
-  "category" : "string",
-  "whatsapp_number" : "string",
-  "franchiseType": [
-    {
-    "type_id": 1,
-    "facility": "ashd",
-    "price": "123"
-    },
-    {
-      "type_id": 2,
-      "facility": "ashd",
-      "price": "123"
-    },
-  ]
-}
+{"address":"asdasa","category":"Drink","description":"sdasd","franchiseType":[{"facility":"asdasd","franchise_type":"Stand","price":"21"},{"facility":"asdsd","franchise_type":"Store","price":"123"}],"franchise_name":"asdasd","whatsapp_number":"23423"}
 
 ### UPLOAD FRANCHISE GALLERY
 POST http://localhost:8080/franchises/3/upload

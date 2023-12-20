@@ -49,8 +49,6 @@ const get = async (id) => {
 };
 
 const create = async (user, request) => {
-  if (user.role.toLowerCase() != "franchisor") throw new ResponseError(401, "Access Forbidden !");
-
   const { franchiseType, ...franchiseData } = validate(createFranchiseValidation, request);
   franchiseData.franchisor_id = user.id;
 
