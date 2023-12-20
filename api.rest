@@ -54,12 +54,12 @@ Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 
 ### POST FRANCHISE
-POST localhost:8080/franchises
+POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+Authorization: 1f2a520b-bc8f-44ab-8ebb-5f266db6b6c5
 
-{"address":"asdasa","category":"Drink","description":"sdasd","franchiseType":[{"facility":"asdasd","franchise_type":"Stand","price":"21"},{"facility":"asdsd","franchise_type":"Store","price":"123"}],"franchise_name":"asdasd","whatsapp_number":"23423"}
+{"address":"asda","category":"Food","description":"asdad","franchiseType":[{"facility":"asdad","franchise_type":"Stand","price":"34234"}],"franchise_name":"AyamGoreng","whatsapp_number":"324234"}
 
 ### UPLOAD FRANCHISE GALLERY
 POST http://localhost:8080/franchises/3/upload
@@ -71,10 +71,10 @@ Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 }
 
 ### GET ALL FRANCHISES
-GET localhost:8080/franchises
+GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+Authorization: 1f2a520b-bc8f-44ab-8ebb-5f266db6b6c5
 
 ### GET MY FRANCHISES
 GET http://localhost:8080/usersmy_franchises
@@ -119,16 +119,16 @@ Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 GET http://localhost:8080/favorites
 Content-Type: application/json
 Accept: application/json
-Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+Authorization: 1f2a520b-bc8f-44ab-8ebb-5f266db6b6c5
 
 ### FAVORITE A FRANCHISE
 POST http://localhost:8080/favorites/5
 Content-Type: application/json
 Accept: application/json
-Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+Authorization: 1f2a520b-bc8f-44ab-8ebb-5f266db6b6c5
 
 ### UNFAVORITE A FRANCHISE
-DELETE http://localhost:8080/favorites/2
+DELETE http://localhost:8080/favorites/5
 Content-Type: application/json
 Accept: application/json
-Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+Authorization: 1f2a520b-bc8f-44ab-8ebb-5f266db6b6c5

@@ -35,7 +35,7 @@ const unfavorite = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Franchise successfully removed from favorite !",
-      data: result,
+      data: "OK",
     });
   } catch (e) {
     next(e);
