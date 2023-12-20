@@ -17,14 +17,14 @@ const loginUserValidation = Joi.object({
 });
 
 const updateUserValidation = Joi.object({
-  name: Joi.required(),
-  email: Joi.required(),
+  name: Joi.optional(),
+  email: Joi.optional(),
   phone: Joi.optional(),
   username: Joi.optional(),
   gender: Joi.optional(),
   avatar: Joi.optional(),
-  password: Joi.required(),
-  role: Joi.required(),
+  password: Joi.optional(),
+  role: Joi.optional(),
 });
 
 export { registerUserValidation, loginUserValidation, updateUserValidation };

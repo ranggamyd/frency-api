@@ -15,7 +15,7 @@ const getAll = async () => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });
@@ -38,7 +38,7 @@ const get = async (id) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });
@@ -59,7 +59,7 @@ const create = async (user, request) => {
   if (franchiseType && (franchiseType.length > 0)) {
     await Promise.all(
       franchiseType.map(async (item) => {
-        return await prismaClient.franchiseType.create({ data: { franchise_id: createdFranchise.id, type_id: item.type_id, facility: item.facility, price: item.price } });
+        return await prismaClient.franchiseType.create({ data: { franchise_id: createdFranchise.id, franchise_type: item.franchise_type, facility: item.facility, price: item.price } });
       })
     );
   }
@@ -74,7 +74,7 @@ const create = async (user, request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });
@@ -156,7 +156,7 @@ const uploadImages = async (franchiseId, request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });
@@ -175,7 +175,7 @@ const getMyFranchises = async (user) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });
@@ -204,7 +204,7 @@ const update = async (user, request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });
@@ -214,7 +214,7 @@ const update = async (user, request) => {
 
     await Promise.all(
       franchiseType.map(async (item) => {
-        return await prismaClient.franchiseType.create({ data: { franchise_id: updatedFranchise.id, type_id: item.type_id, facility: item.facility, price: item.price } });
+        return await prismaClient.franchiseType.create({ data: { franchise_id: updatedFranchise.id, franchise_type: item.franchise_type, facility: item.facility, price: item.price } });
       })
     );
   }
@@ -257,7 +257,7 @@ const search = async (request) => {
       category: true,
       whatsapp_number: true,
       franchisor: { select: { id: true, name: true } },
-      franchiseType: { include: { type: true } },
+      franchiseType: true,
       gallery: true,
     },
   });

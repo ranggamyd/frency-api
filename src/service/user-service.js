@@ -90,7 +90,14 @@ const update = async (request) => {
 
   const user = await prismaClient.user.findUnique({ where: { id: updateRequest.id } });
   if (!user) throw new ResponseError(404, "User not found !");
-  
+
+  const updateData = {
+    name: updateRequest.name ? updateRequest.name : user.name,
+    email: updateRequest.email ? updateRequest.email : user.email,
+    phone: updateRequest.phone ? updateRequest.phone : user.phone,
+    gender: updateRequest.gender ? updateRequest.gender : user.gender,
+  };
+
   updateRequest.avatar = user.avatar;
   if (request.files.avatar) {
     const fileName = Date.now() + "-" + image.originalname;
@@ -110,7 +117,7 @@ const update = async (request) => {
       });
 
       stream.on("finish", async () => {
-        updateRequest.avatar = `https://storage.googleapis.com/frency/avatar/${fileName}`;
+        updateData.avatar = `https://storage.googleapis.com/frency/avatar/${fileName}`;
 
         resolve();
       });
@@ -123,20 +130,21 @@ const update = async (request) => {
 
   let emailCheck = false;
   if (updateRequest.email !== user.email) emailCheck = await prismaClient.user.findUnique({ where: { email: updateRequest.email } });
-  if (emailCheck) throw new ResponseError(400, "Email already registered !");
+  if (emailCheck) {
+    throw new ResponseError(400, "Email already registered !");
+  } else {
+    updateData.email = updateRequest.email;
+  };
 
   let usernameCheck = false;
   if (updateRequest.username !== user.username) usernameCheck = await prismaClient.user.findUnique({ where: { username: updateRequest.username } });
-  if (usernameCheck) throw new ResponseError(400, "Username already registered !");
-  
-  if (updateRequest.password && (updateRequest.password !== "")) {
-    updateRequest.password = await bcrypt.hash(updateRequest.password, 10);
+  if (usernameCheck) {
+    throw new ResponseError(400, "Username already registered !");
   } else {
-    updateRequest.password = user.password;
-  };
-
-  const updateData = updateRequest;
-  delete updateData.id;
+    updateData.email = updateRequest.email;
+  }
+  
+  if (updateRequest.password && (updateRequest.password !== "")) updateData.password = await bcrypt.hash(updateRequest.password, 10);
   
   return await prismaClient.user.update({
     where: { id: updateRequest.id },

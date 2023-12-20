@@ -16,8 +16,8 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email" : "franchisor@frency.io",
-  "password" : "franchisor"
+  "email" : "franchisee@frency.io",
+  "password" : "franchisee"
 }
 
 ### GET ALL USERS

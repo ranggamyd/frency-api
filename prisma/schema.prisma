@@ -44,22 +44,13 @@ model Franchise {
   @@map("franchises")
 }
 
-model Type {
-  id             Int             @id @default(autoincrement())
-  franchise_type String          @db.VarChar()
-  franchiseType  FranchiseType[]
-
-  @@map("types")
-}
-
 model FranchiseType {
-  id           Int       @id @default(autoincrement())
-  franchise_id Int
-  type_id      Int
-  facility     String
-  price        String
-  franchise    Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
-  type         Type      @relation(fields: [type_id], references: [id], onDelete: Cascade)
+  id             Int       @id @default(autoincrement())
+  franchise_id   Int
+  franchise_type String
+  facility       String
+  price          String
+  franchise      Franchise @relation(fields: [franchise_id], references: [id], onDelete: Cascade)
 
   @@map("franchise_types")
 }
