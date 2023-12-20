@@ -1,8 +1,8 @@
 import favoriteService from "../service/favorite-service.js";
 
-const getFavorites = async (req, res, next) => {
+const getFavoritedFranchises = async (req, res, next) => {
   try {
-    const result = await favoriteService.getAll(req.user);
+    const result = await favoriteService.getFavoritedFranchises(parseInt(req.user.id));
 
     res.status(200).json({
       success: true,
@@ -16,12 +16,12 @@ const getFavorites = async (req, res, next) => {
 
 const favorite = async (req, res, next) => {
   try {
-    await favoriteService.favorite(req.user, req.params.franchiseId);
+    const result = await favoriteService.favorite(parseInt(req.params.franchiseId), parseInt(req.user.id));
 
     res.status(200).json({
       success: true,
       message: "Franchise successfully added to favorite !",
-      data: "OK",
+      data: result,
     });
   } catch (e) {
     next(e);
@@ -30,16 +30,16 @@ const favorite = async (req, res, next) => {
 
 const unfavorite = async (req, res, next) => {
   try {
-    await favoriteService.unfavorite(req.user, req.params.franchiseId);
+    const result = await favoriteService.unfavorite(parseInt(req.params.franchiseId), parseInt(req.user.id));
 
     res.status(200).json({
       success: true,
       message: "Franchise successfully removed from favorite !",
-      data: "OK",
+      data: result,
     });
   } catch (e) {
     next(e);
   }
 };
 
-export default { getFavorites, favorite, unfavorite };
+export default { getFavoritedFranchises, favorite, unfavorite };

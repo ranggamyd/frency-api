@@ -1,42 +1,42 @@
 ### REGISTER USER
-POST https://frency-api-ofjpwfxlpa-et.a.run.app/users
+POST localhost:8080/users
 Content-Type: application/json
 Accept: application/json
 
 {
-  "name" : "Franchisor 9",
-  "email" : "franchisor9@frency.io",
-  "password" : "Franchisor",
-  "role" : "Franchisor"
+  "name" : "Myd Franchisee",
+  "email" : "me",
+  "password" : "me",
+  "role" : "franchisee"
 }
 
 ### LOGIN USER
-POST https://frency-api-ofjpwfxlpa-et.a.run.app/users/login
+POST http://localhost:8080/users/login
 Content-Type: application/json
 Accept: application/json
 
 {
-  "email" : "franchisee@frency.io",
-  "password" : "franchisee"
+  "email" : "me",
+  "password" : "me"
 }
 
 ### GET ALL USERS
 GET http://localhost:8080/users
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 ### GET CURRENT USER
 GET http://localhost:8080/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 ### EDIT CURRENT USER
 PATCH http://localhost:8080/users/current
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 {
   "name" : "string1",
@@ -49,50 +49,50 @@ Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 DELETE http://localhost:8080/users/logout
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 
 
 ### POST FRANCHISE
-POST https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
+POST localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 60018f78-698c-4885-a236-708be414e750
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 {"address":"asdasa","category":"Drink","description":"sdasd","franchiseType":[{"facility":"asdasd","franchise_type":"Stand","price":"21"},{"facility":"asdsd","franchise_type":"Store","price":"123"}],"franchise_name":"asdasd","whatsapp_number":"23423"}
 
 ### UPLOAD FRANCHISE GALLERY
 POST http://localhost:8080/franchises/3/upload
 Content-Type: multipart/form-data
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 {
   "gallery" : ["img1.jpg", "img2.jpg", "img2.jpg"]
 }
 
 ### GET ALL FRANCHISES
-GET https://frency-api-ofjpwfxlpa-et.a.run.app/franchises
+GET localhost:8080/franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 9dc110e7-e314-4364-a488-4dd597903946
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 ### GET MY FRANCHISES
 GET http://localhost:8080/usersmy_franchises
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 ### GET A FRANCHISE
 GET http://localhost:8080/franchises/1
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 ### UPDATE FRANCHISE
 PUT http://localhost:8080/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 {
   "franchise_name" : "string 1",
@@ -107,10 +107,28 @@ Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
 DELETE http://localhost:8080/franchises/3
 Content-Type: application/json
 Accept: application/json
-Authorization: 64f03318-2fe7-499b-ab46-c2e5420d5f46
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
 
 ### SEARCH FRANCHISES
 GET http://localhost:8080/franchises/search?franchise_type=store
 Content-Type: application/json
 Accept: application/json
-Authorization: 11d5f0b2-64e5-4c6a-b1bf-5b4df7f1c9ce
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+
+### GET FAVORITED FRANCHISES
+GET http://localhost:8080/favorites
+Content-Type: application/json
+Accept: application/json
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+
+### FAVORITE A FRANCHISE
+POST http://localhost:8080/favorites/5
+Content-Type: application/json
+Accept: application/json
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527
+
+### UNFAVORITE A FRANCHISE
+DELETE http://localhost:8080/favorites/2
+Content-Type: application/json
+Accept: application/json
+Authorization: 9c713c59-f220-457e-8291-b7ffe0882527

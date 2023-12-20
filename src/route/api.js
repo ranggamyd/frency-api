@@ -26,8 +26,8 @@ userRouter.put("/franchises/:franchiseId", franchiseController.update);
 userRouter.delete("/franchises/:franchiseId", franchiseController.remove);
 
 // Favorite API
-userRouter.get("/favorites", favoriteController.getFavorites);
-userRouter.post("/favorites", favoriteController.favorite);
-userRouter.delete("/favorites", favoriteController.unfavorite);
+userRouter.get("/favorites", favoriteController.getFavoritedFranchises);
+userRouter.post("/favorites/:franchiseId", favoriteController.favorite);
+userRouter.delete("/favorites/:franchiseId", favoriteController.unfavorite);
 
 export { userRouter };
