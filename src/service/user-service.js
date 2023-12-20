@@ -135,6 +135,7 @@ const update = async (request) => {
     updateRequest.password = user.password;
   };
 
+  delete updateRequest.id;
   return await prismaClient.user.update({
     where: { id: updateRequest.id },
     data: updateRequest,
