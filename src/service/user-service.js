@@ -19,6 +19,7 @@ const register = async (request) => {
   if (usernameCheck) throw new ResponseError(400, "Username already registered !");
 
   registerRequest.password = await bcrypt.hash(registerRequest.password, 10);
+  registerRequest.token = uuid().toString();
 
   return await prismaClient.user.create({ data: registerRequest });
 };
@@ -32,12 +33,7 @@ const login = async (request) => {
   const isPasswordMatch = await bcrypt.compare(loginRequest.password, user.password);
   if (!isPasswordMatch) throw new ResponseError(401, "Credentials isn't match !");
 
-  const token = uuid().toString();
-
-  return await prismaClient.user.update({
-    data: { token: token },
-    where: { id: user.id },
-  });
+  return user
 };
 
 const logout = async (id) => {
